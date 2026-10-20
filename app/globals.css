@@ -1,26 +1,350 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Typed, inherited tokens animate every themed surface without replacing
+   existing hover/reveal/transform transitions on descendants. */
+@property --canvas {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #f5f3ee;
+}
+
+@property --paper {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #fffefa;
+}
+
+@property --raised {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --ink {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #172033;
+}
+
+@property --muted {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #5f6878;
+}
+
+@property --line {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #d8d5ce;
+}
+
+@property --soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ebe8e1;
+}
+
+@property --accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1d4e89;
+}
+
+@property --accent-strong {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #1d4e89;
+}
+
+@property --accent-soft {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #dce8f5;
+}
+
+@property --on-accent {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+@property --solid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #172033;
+}
+
+@property --on-solid {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #ffffff;
+}
+
+html[data-theme-transition] {
+  transition-property: --canvas, --paper, --raised, --ink, --muted, --line, --soft, --accent, --accent-strong, --accent-soft, --on-accent, --solid, --on-solid;
+  transition-duration: 350ms;
+  transition-timing-function: ease-in-out;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --canvas: #f5f3ee;
+  --paper: #fffefa;
+  --raised: #ffffff;
+  --ink: #172033;
+  --muted: #5f6878;
+  --line: #d8d5ce;
+  --soft: #ebe8e1;
+  --accent: #1d4e89;
+  --accent-strong: #1d4e89;
+  --accent-soft: #dce8f5;
+  --on-accent: #ffffff;
+  --solid: #172033;
+  --on-solid: #ffffff;
+}
+
+.dark {
+  --canvas: #12151c;
+  --paper: #171b24;
+  --raised: #1b202b;
+  --ink: #edeff5;
+  --muted: #9aa4b5;
+  --line: #2a3140;
+  --soft: #1d222d;
+  --accent: #8ab4e8;
+  --accent-strong: #2a5c99;
+  --accent-soft: #1d3048;
+  --on-accent: #ffffff;
+  --solid: #212836;
+  --on-solid: #f2f4f8;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-newsreader);
+  --color-canvas: var(--canvas);
+  --color-paper: var(--paper);
+  --color-raised: var(--raised);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-soft: var(--soft);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-solid: var(--solid);
+  --color-on-solid: var(--on-solid);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset anchor scrolling so sections are not hidden behind the fixed navbar. */
+section[id] {
+  scroll-margin-top: 5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 24%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 16%, transparent) 1px, transparent 1px);
+  background-size: 5rem 5rem;
+  background-position: center top;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--canvas);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.page-frame {
+  border-inline: 1px solid var(--line);
+  background: color-mix(in srgb, var(--canvas) 96%, transparent);
+}
+
+.display-hero {
+  font-size: clamp(3rem, 6.5vw, 5rem);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.display-project {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.display-section {
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.hero-monogram {
+  height: clamp(240px, 21vw, 280px);
+  font-size: clamp(180px, 16vw, 220px);
+}
+
+[data-parallax-depth] {
+  translate: calc(var(--parallax-x, 0) * var(--parallax-depth, 0px))
+    calc(var(--parallax-y, 0) * var(--parallax-depth, 0px));
+}
+
+[data-parallax-active] [data-parallax-depth] {
+  will-change: translate;
+}
+
+@media (width < 1024px), (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  [data-parallax-depth] {
+    translate: none !important;
+    will-change: auto !important;
+  }
+}
+
+.surface-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 48%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 48%, transparent) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.corner-ticks {
+  position: relative;
+}
+
+.corner-ticks::before,
+.corner-ticks::after {
+  content: "";
+  position: absolute;
+  width: 0.75rem;
+  height: 0.75rem;
+  border-color: currentColor;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.corner-ticks::before {
+  top: -1px;
+  left: -1px;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.corner-ticks::after {
+  right: -1px;
+  bottom: -1px;
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.project-screen-grid {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--line) 38%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--line) 38%, transparent) 1px, transparent 1px);
+  background-size: 2rem 2rem;
+}
+
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  height: 2px;
+  width: 100%;
+  border-radius: 9999px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
+}
+
+.hero-enter {
+  animation: hero-enter 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+.js .reveal {
+  transform: translateY(12px);
+  transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js .reveal.is-visible {
+  transform: none;
+}
+.nav-link:hover::after,
+.nav-link:focus-visible::after,
+.nav-link[aria-current="true"]::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme-transition] {
+    transition: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js .reveal {
+    transform: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  html[data-theme-transition] {
+    transition: none !important;
+  }
+
+  [data-parallax-depth] {
+    translate: none !important;
+    will-change: auto !important;
+  }
+
+  .reveal {
+    transform: none !important;
+  }
 }
